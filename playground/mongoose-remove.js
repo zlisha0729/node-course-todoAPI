@@ -3,6 +3,12 @@ const {mongoose} = require('./../server/db/mongoose');
 const {Todo} = require('./../server/models/todo');
 const {User} = require('./../server/models/user');
 
-Todo.remove({}).then((result) => {
-  console.log(result);
+// Todo.remove({}).then((result) => {
+//   console.log(result);
+// });
+
+//Todo.findOneAndRemove
+
+Todo.findByIdAndRemove('5b1168a5834215c0d63a5930').then((todo) => {
+  console.log(todo);
 })
