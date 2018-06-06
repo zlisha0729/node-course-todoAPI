@@ -3,12 +3,12 @@ require('./config/config');
 const _ = require('lodash');
 var express = require('express');
 var bodyParser = require('body-parser');
-
 var {ObjectID} = require('mongodb');
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 var {authenticate} = require('./middleware/middleware');
+const bcrypt = require('bcryptjs');
 
 var app = express();
 const port = process.env.PORT || 3000;
@@ -156,7 +156,37 @@ app.get('/users/me', authenticate, (req, res) => {
   //   res.status(401).send();
   // });
   res.send(req.user);
-})
+});
+
+app.post('/users/login', (req, res) => {
+  var body = _.pick(req.body, ['email', 'password']);
+  // User.findOne({email: body.email}).then((user) => {
+  //   if (!user) {
+  //     res.status(401).send();
+  //   }
+  //   //console.log(user);
+  //   console.log(body.password);
+  //   console.log(user.password);
+  //
+  //   bcrypt.compare(body.password, user.password, (err, result) => {
+  //     console.log(result);
+  //     if (result) {
+  //       res.send(user);
+  //     }
+  //     else {
+  //       res.status(401).send();
+  //     }
+  //   })
+  //
+  // });
+  User.findByCredentials(body.email, body.password).then((user) => {
+    return user.generateAuthToken().then((token) => {
+      res.header('x-auth', token).send(user);
+    })
+  }).catch((e) => {
+    res.status(400).send();
+  })
+});
 
 app.listen(port, () => {
   console.log(`Started up at port ${port}`);

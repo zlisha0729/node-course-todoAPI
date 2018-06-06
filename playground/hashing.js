@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-var password = '123abc';
+//var password = '123abc';
 
 // 10 is number of rounds for bcrypt
 // bcrypt.genSalt(10, (err, salt) => {
@@ -10,9 +10,11 @@ var password = '123abc';
 //   })
 // });
 
-var hashedPassword = '$2a$10$z/2txm.dXMjxHxBIo0srTuWQDoavQ3JPs5VlVyEy5hwyMDJxwUq2G';
-bcrypt.compare(password, hashedPassword, (err, res) => {
-  console.log(res);
+//var hashedPassword = '$2a$10$z/2txm.dXMjxHxBIo0srTuWQDoavQ3JPs5VlVyEy5hwyMDJxwUq2G';
+var password = '123456abc';
+var hashedPassword = '$2a$10$0JVpxTR4wzADG4vus0gqT.4P6EQOeepZyjY8DhRtUbhbat9rCzliq'
+bcrypt.compare(password, hashedPassword, (err, result) => {
+  console.log(result);
 })
 //
 // var data = {
